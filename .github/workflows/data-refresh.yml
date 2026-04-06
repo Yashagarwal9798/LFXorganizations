@@ -1,0 +1,25 @@
+name: Weekly Data Refresh
+
+on:
+  schedule:
+    - cron: '0 6 * * 1'  # Every Monday 6am UTC
+  workflow_dispatch:       # Allow manual trigger
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run fetch-data
+      - name: Commit if data changed
+        run: |
+          git config user.email "bot@github.com"
+          git config user.name "Data Bot"
+          git add public/data/
+          git diff --staged --quiet || git commit -m "chore: refresh LFX data"
+          git push
