@@ -33,19 +33,24 @@ export default function FilterBar({ meta }) {
   const hasFilters = Object.values(filters).some(Boolean);
 
   return (
-    <div className="space-y-3">
-      <SearchInput
-        value={filters.search}
-        onChange={(val) => updateParam('search', val)}
-      />
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+    <div className="space-y-4">
+      <div className="mb-6">
+          <SearchInput
+            value={filters.search}
+            onChange={(val) => updateParam('search', val)}
+          />
+      </div>
+      
+      <div className="space-y-4">
         <Select
+          label="Year"
           value={filters.year}
           onChange={(val) => updateParam('year', val)}
           options={meta.years.map((y) => ({ value: String(y), label: String(y) }))}
           placeholder="All Years"
         />
         <Select
+          label="Term / Season"
           value={filters.season}
           onChange={(val) => updateParam('season', val)}
           options={[
@@ -56,26 +61,30 @@ export default function FilterBar({ meta }) {
           placeholder="All Terms"
         />
         <Select
+          label="Foundation"
           value={filters.foundation}
           onChange={(val) => updateParam('foundation', val)}
           options={meta.foundations}
           placeholder="All Foundations"
         />
         <Select
+          label="Skills / Tech Stack"
           value={filters.skill}
           onChange={(val) => updateParam('skill', val)}
           options={meta.skills.slice(0, 50)}
           placeholder="All Skills"
         />
       </div>
+      
       {hasFilters && (
         <button
           onClick={clearAll}
-          className="text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
+          className="mt-6 w-full text-sm font-medium text-cyber-primary hover:text-cyber-primary-hover border border-cyber-primary/30 rounded p-2 transition-colors uppercase tracking-widest"
         >
-          Clear all filters
+          Clear Filters
         </button>
       )}
     </div>
   );
 }
+

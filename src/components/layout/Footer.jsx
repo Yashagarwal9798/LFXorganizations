@@ -10,26 +10,27 @@ export default function Footer({ lastUpdated }) {
     : 'Unknown';
 
   return (
-    <footer className="border-t border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-gray-900">
+    <footer className="border-t border-cyber-outline/20 bg-cyber-surface-low text-cyber-fg-muted mt-24">
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
-          <div className="text-sm text-gray-500 dark:text-gray-400">
+          <div className="text-sm">
             Data sourced from{' '}
             <a
               href={LFX_BASE_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-blue-600 hover:underline dark:text-blue-400"
+              className="text-cyber-primary hover:text-cyber-secondary transition-colors"
             >
               LFX Mentorship
             </a>
             {' '}&middot; Last updated: {dateStr}
           </div>
-          <div className="text-sm text-gray-400 dark:text-gray-500">
-            Not affiliated with the Linux Foundation
+          <div className="text-xs uppercase tracking-widest text-cyber-outline">
+            Sys. Status: Online
           </div>
         </div>
       </div>
     </footer>
   );
 }
+

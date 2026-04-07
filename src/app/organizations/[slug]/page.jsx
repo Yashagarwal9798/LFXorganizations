@@ -29,13 +29,27 @@ export default async function OrgDetailPage({ params }) {
   const projects = await getProjectsByOrgSlug(slug);
 
   return (
-    <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8">
-      <div className="space-y-8">
-        <OrgHeader org={org} />
-        <OrgStats org={org} />
-        <TermChart participations={org.participations} foundation={org.foundation} />
-        <TermTimeline projects={projects} participations={org.participations} />
+    <div className="mx-auto max-w-screen-2xl px-4 py-8 sm:px-6 lg:px-8">
+      <OrgHeader org={org} />
+      
+      <div className="mt-12 flex flex-col md:flex-row gap-12 items-start">
+        <aside className="w-full md:w-[350px] shrink-0 space-y-8 sticky top-24">
+          <div className="bg-glass-card rounded-xl p-6">
+            <h2 className="text-xl font-display font-medium text-cyber-fg mb-6 border-b border-cyber-outline/20 pb-4">Organization Profile</h2>
+            <OrgStats org={org} />
+          </div>
+          <div className="bg-glass-card rounded-xl p-6">
+             <h2 className="text-lg font-display font-medium text-cyber-fg mb-6 text-center">Historical Activity</h2>
+            <TermChart participations={org.participations} foundation={org.foundation} />
+          </div>
+        </aside>
+
+        <main className="flex-1 w-full bg-glass-card rounded-xl p-8">
+          <h2 className="text-3xl font-display font-bold text-cyber-fg mb-8 text-gradient">Mentorship Projects</h2>
+          <TermTimeline projects={projects} participations={org.participations} />
+        </main>
       </div>
     </div>
   );
 }
+

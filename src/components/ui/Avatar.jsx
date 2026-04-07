@@ -1,8 +1,8 @@
 export default function Avatar({ src, name, size = 'md' }) {
   const sizes = {
-    sm: 'h-6 w-6 text-xs',
-    md: 'h-8 w-8 text-sm',
-    lg: 'h-10 w-10 text-base',
+    sm: 'h-6 w-6 text-[10px]',
+    md: 'h-8 w-8 text-xs',
+    lg: 'h-10 w-10 text-sm',
   };
 
   const initials = (name || '?')
@@ -17,16 +17,17 @@ export default function Avatar({ src, name, size = 'md' }) {
       <img
         src={src}
         alt={name || ''}
-        className={`${sizes[size]} rounded-full object-cover`}
+        className={`${sizes[size]} rounded-full object-cover border border-cyber-outline/30`}
       />
     );
   }
 
   return (
     <div
-      className={`${sizes[size]} rounded-full bg-gray-200 dark:bg-gray-600 flex items-center justify-center font-medium text-gray-600 dark:text-gray-300`}
+      className={`${sizes[size]} rounded-full bg-cyber-primary/10 border border-cyber-primary/30 flex items-center justify-center font-mono font-bold text-cyber-primary`}
     >
       {initials}
     </div>
   );
 }
+

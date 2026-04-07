@@ -12,42 +12,41 @@ export default function TermChart({ participations, foundation }) {
     mentees: p.term.menteeCount,
   }));
 
-  const barColor = FOUNDATION_COLORS[foundation] || '#3B82F6';
+  const barColor = FOUNDATION_COLORS[foundation] || '#00D1FF';
 
   return (
-    <div className="rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800">
-      <h2 className="mb-4 text-lg font-semibold text-gray-900 dark:text-white">
-        Projects per Term
-      </h2>
-      <div className="h-64" style={{ minWidth: 0 }}>
-        <ResponsiveContainer width="100%" height="100%" minWidth={0}>
-          <BarChart data={data}>
-            <XAxis
-              dataKey="name"
-              tick={{ fontSize: 11, fill: '#9CA3AF' }}
-              axisLine={false}
-              tickLine={false}
-            />
-            <YAxis
-              allowDecimals={false}
-              tick={{ fontSize: 11, fill: '#9CA3AF' }}
-              axisLine={false}
-              tickLine={false}
-            />
-            <Tooltip
-              contentStyle={{
-                backgroundColor: '#1F2937',
-                border: 'none',
-                borderRadius: '8px',
-                color: '#F9FAFB',
-                fontSize: '13px',
-              }}
-              formatter={(value, name) => [value, name === 'projects' ? 'Projects' : 'Mentees']}
-            />
-            <Bar dataKey="projects" fill={barColor} radius={[4, 4, 0, 0]} />
-          </BarChart>
-        </ResponsiveContainer>
-      </div>
+    <div className="h-64 mt-4" style={{ minWidth: 0 }}>
+      <ResponsiveContainer width="100%" height="100%" minWidth={0}>
+        <BarChart data={data} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+          <XAxis
+            dataKey="name"
+            tick={{ fontSize: 10, fill: '#7C8B9A', fontFamily: 'monospace' }}
+            axisLine={false}
+            tickLine={false}
+          />
+          <YAxis
+            allowDecimals={false}
+            tick={{ fontSize: 10, fill: '#7C8B9A', fontFamily: 'monospace' }}
+            axisLine={false}
+            tickLine={false}
+          />
+          <Tooltip
+            cursor={{ fill: 'rgba(0, 209, 255, 0.05)' }}
+            contentStyle={{
+              backgroundColor: '#121722',
+              border: '1px solid rgba(0, 209, 255, 0.2)',
+              borderRadius: '8px',
+              color: '#d4d4d8',
+              fontSize: '12px',
+              fontFamily: 'monospace',
+              boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.5)',
+            }}
+            formatter={(value, name) => [value, name === 'projects' ? 'Projects' : 'Mentees']}
+          />
+          <Bar dataKey="projects" fill={barColor} radius={[4, 4, 0, 0]} maxBarSize={40} />
+        </BarChart>
+      </ResponsiveContainer>
     </div>
   );
 }
+

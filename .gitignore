@@ -25,3 +25,6 @@ public/data/
 
 # pipeline logs
 scripts/unmatched-names.log
+
+# Gemini org cache (local only)
+lfx-mentorship-yash/gemini-org-cache.json

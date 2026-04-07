@@ -2,25 +2,40 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-.dark {
-  --background: #0a0a0a;
-  --foreground: #ededed;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-cyber-bg: #0f131d;
+  --color-cyber-surface-low: #171b26;
+  --color-cyber-surface: #1c1f2a;
+  --color-cyber-surface-high: #262a35;
+  --color-cyber-surface-highest: #313540;
+  
+  --color-cyber-primary: #00d1ff;
+  --color-cyber-primary-hover: #4cd6ff;
+  --color-cyber-secondary: #a4e6ff;
+  --color-cyber-accent: #00677f;
+  
+  --color-cyber-fg: #dfe2f1;
+  --color-cyber-fg-muted: #bbc9cf;
+  --color-cyber-outline: #3c494e;
+  
+  --font-sans: var(--font-inter);
+  --font-display: var(--font-space-grotesk);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--color-cyber-bg);
+  color: var(--color-cyber-fg);
   font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+}
+
+@layer utilities {
+  .text-gradient {
+    @apply text-transparent bg-clip-text bg-gradient-to-br from-cyber-secondary to-cyber-primary;
+  }
+  .bg-glass {
+    @apply bg-cyber-surface/70 backdrop-blur-xl border border-cyber-outline/30;
+  }
+  .bg-glass-card {
+    @apply bg-cyber-surface border border-cyber-outline/20 hover:border-cyber-primary/40 transition-colors duration-300;
+  }
 }

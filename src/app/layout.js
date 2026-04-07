@@ -1,11 +1,16 @@
-import { Geist } from 'next/font/google';
+import { Inter, Space_Grotesk } from 'next/font/google';
 import './globals.css';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import { loadMeta } from '@/lib/data';
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
+const inter = Inter({
+  variable: '--font-inter',
+  subsets: ['latin'],
+});
+
+const spaceGrotesk = Space_Grotesk({
+  variable: '--font-space-grotesk',
   subsets: ['latin'],
 });
 
@@ -19,28 +24,12 @@ export default async function RootLayout({ children }) {
   let lastUpdated = null;
   try {
     const meta = await loadMeta();
-    lastUpdated = meta.lastUpdated;
+    lastUpdated = lastUpdated = meta?.lastUpdated || null;
   } catch {}
 
   return (
-    <html lang="en" className={`${geistSans.variable} h-full antialiased`} suppressHydrationWarning>
-      <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                try {
-                  var theme = localStorage.getItem('theme');
-                  if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-                    document.documentElement.classList.add('dark');
-                  }
-                } catch(e) {}
-              })();
-            `,
-          }}
-        />
-      </head>
-      <body className="min-h-full flex flex-col bg-white dark:bg-gray-950">
+    <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable} dark h-full antialiased`} suppressHydrationWarning>
+      <body className="min-h-full flex flex-col bg-cyber-bg text-cyber-fg font-sans selection:bg-cyber-primary/30">
         <Navbar />
         <main className="flex-1">{children}</main>
         <Footer lastUpdated={lastUpdated} />

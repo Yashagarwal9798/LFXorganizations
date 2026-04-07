@@ -3,74 +3,65 @@ import Badge from '@/components/ui/Badge';
 
 export default function OrgCard({ org }) {
   const maxSkills = 3;
-  const visibleSkills = org.skills.slice(0, maxSkills);
-  const extraCount = org.skills.length - maxSkills;
+  const visibleSkills = (org.skills || []).slice(0, maxSkills);
+  const extraCount = (org.skills || []).length - maxSkills;
 
   return (
     <Link
       href={`/organizations/${org.slug}`}
-      className="group block rounded-xl border border-gray-200 bg-white p-5 transition-all hover:shadow-lg hover:border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:hover:border-gray-600"
+      className="group block rounded-xl bg-glass-card p-5 relative overflow-hidden"
     >
-      <div className="flex items-start gap-3">
+      <div className="absolute inset-0 bg-gradient-to-br from-cyber-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+      
+      <div className="flex items-start gap-4 relative z-10">
         <div
-          className="h-12 w-12 flex-shrink-0 rounded-lg flex items-center justify-center overflow-hidden"
+          className="h-14 w-14 flex-shrink-0 rounded-lg flex items-center justify-center overflow-hidden bg-cyber-surface-high border border-cyber-outline/20"
           style={{
-            backgroundColor: org.color && org.color !== 'FFFFFF' ? `#${org.color.replace('#', '')}` : '#E5E7EB',
+            borderColor: org.color && org.color !== 'FFFFFF' ? `#${org.color.replace('#', '')}55` : '',
           }}
         >
           {org.logoUrl ? (
             <img
               src={org.logoUrl}
               alt={`${org.displayName} logo`}
-              className="h-full w-full object-contain p-1"
+              className="h-full w-full object-contain p-2"
             />
           ) : (
-            <span className="text-lg font-bold text-white">
+            <span className="text-xl font-display font-bold text-cyber-fg">
               {org.displayName.charAt(0)}
             </span>
           )}
         </div>
 
         <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2">
-            <h3 className="text-sm font-semibold text-gray-900 truncate group-hover:text-blue-600 dark:text-white dark:group-hover:text-blue-400">
+          <div className="flex flex-col gap-1 items-start">
+            <h3 className="text-base font-display font-semibold text-cyber-fg truncate w-full group-hover:text-cyber-primary transition-colors">
               {org.displayName}
             </h3>
             <Badge variant="foundation">{org.foundation}</Badge>
           </div>
-
-          <p className="mt-1 text-xs text-gray-500 dark:text-gray-400 line-clamp-2">
-            {org.description}
-          </p>
         </div>
       </div>
+      
+      {/* Activity Bar */}
+      <div className="mt-5 grid border-t border-cyber-outline/20 border-b py-3 mb-3 grid-cols-2 gap-4">
+          <div className="bg-cyber-surface-low rounded p-2 text-center border border-cyber-outline/10">
+              <div className="font-mono text-lg font-bold text-cyber-secondary">{org.totalProjects}</div>
+              <div className="text-[10px] uppercase tracking-widest text-cyber-fg-muted mt-1">Projects</div>
+          </div>
+          <div className="bg-cyber-surface-low rounded p-2 text-center border border-cyber-outline/10">
+              <div className="font-mono text-lg font-bold text-cyber-primary">{org.totalMentees}</div>
+              <div className="text-[10px] uppercase tracking-widest text-cyber-fg-muted mt-1">Mentees</div>
+          </div>
+      </div>
 
-      <div className="mt-3 flex flex-wrap gap-1">
+      <div className="mt-3 flex flex-wrap gap-1.5 relative z-10">
         {visibleSkills.map((skill) => (
           <Badge key={skill}>{skill}</Badge>
         ))}
-        {extraCount > 0 && <Badge>+{extraCount} more</Badge>}
-      </div>
-
-      <div className="mt-3 flex flex-wrap gap-1">
-        {org.participations.slice(-6).map((p) => (
-          <span
-            key={p.term.label}
-            className="inline-block rounded bg-blue-50 px-1.5 py-0.5 text-[10px] font-medium text-blue-700 dark:bg-blue-900/30 dark:text-blue-300"
-          >
-            {p.term.label}
-          </span>
-        ))}
-        {org.participations.length > 6 && (
-          <span className="inline-block rounded bg-gray-100 px-1.5 py-0.5 text-[10px] text-gray-500 dark:bg-gray-700 dark:text-gray-400">
-            +{org.participations.length - 6} more
-          </span>
-        )}
-      </div>
-
-      <div className="mt-3 text-xs text-gray-500 dark:text-gray-400">
-        {org.totalProjects} projects &middot; {org.totalMentees} mentees graduated
+        {extraCount > 0 && <Badge>+{extraCount}</Badge>}
       </div>
     </Link>
   );
 }
+

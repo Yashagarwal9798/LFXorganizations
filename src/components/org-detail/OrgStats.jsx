@@ -1,24 +1,27 @@
 export default function OrgStats({ org }) {
   const stats = [
-    { label: 'Total Projects', value: org.totalProjects },
-    { label: 'Mentees Graduated', value: org.totalMentees },
-    { label: 'Terms Active', value: org.participations.length },
-    { label: 'Years Active', value: org.yearsActive.length },
+    { label: 'Projects', value: org.totalProjects, color: 'text-cyber-primary' },
+    { label: 'Mentees', value: org.totalMentees, color: 'text-cyber-secondary' },
+    { label: 'Terms Active', value: org.participations.length, color: 'text-cyber-fg' },
+    { label: 'Years Active', value: org.yearsActive.length, color: 'text-cyber-fg' },
   ];
 
   return (
-    <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+    <div className="grid grid-cols-2 gap-4">
       {stats.map((stat) => (
         <div
           key={stat.label}
-          className="rounded-lg border border-gray-200 bg-white p-4 text-center dark:border-gray-700 dark:bg-gray-800"
+          className="rounded-xl border border-cyber-outline/20 bg-cyber-surface-low p-4 text-center shadow-inner hover:bg-cyber-surface-high transition-colors"
         >
-          <div className="text-2xl font-bold text-gray-900 dark:text-white">
+          <div className={`text-3xl font-display font-bold ${stat.color}`}>
             {stat.value.toLocaleString()}
           </div>
-          <div className="mt-1 text-xs text-gray-500 dark:text-gray-400">{stat.label}</div>
+          <div className="mt-2 text-[10px] font-mono uppercase tracking-widest text-cyber-fg-muted">
+            {stat.label}
+          </div>
         </div>
       ))}
     </div>
   );
 }
+

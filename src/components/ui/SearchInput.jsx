@@ -25,7 +25,7 @@ export default function SearchInput({ value, onChange, placeholder = 'Search org
   return (
     <div className="relative">
       <svg
-        className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400"
+        className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-cyber-outline"
         fill="none"
         stroke="currentColor"
         viewBox="0 0 24 24"
@@ -42,12 +42,12 @@ export default function SearchInput({ value, onChange, placeholder = 'Search org
         value={local}
         onChange={handleChange}
         placeholder={placeholder}
-        className="w-full pl-10 pr-10 py-2 border border-gray-300 rounded-lg bg-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-800 dark:border-gray-600 dark:text-white dark:placeholder-gray-400"
+        className="w-full pl-10 pr-10 py-3 border border-cyber-outline/30 rounded-lg bg-cyber-surface-lowest text-sm text-cyber-fg placeholder-cyber-fg-muted focus:outline-none focus:ring-1 focus:ring-cyber-primary focus:border-cyber-primary transition-all shadow-inner"
       />
       {local && (
         <button
           onClick={handleClear}
-          className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+          className="absolute right-3 top-1/2 -translate-y-1/2 text-cyber-outline hover:text-cyber-fg transition-colors"
           aria-label="Clear search"
         >
           <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -58,3 +58,4 @@ export default function SearchInput({ value, onChange, placeholder = 'Search org
     </div>
   );
 }
+
