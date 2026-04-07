@@ -21,9 +21,9 @@ try {
       if (!process.env[key]) process.env[key] = val;
     }
   }
-} catch {}
+} catch { }
 
-const GEMINI_API_KEY = 'AIzaSyC7JUK4UQ6T_n1Cea7OJkxnBckcl6Fjilg';
+const GEMINI_API_KEY = '[GCP_API_KEY]';
 const GEMINI_MODEL = 'gemini-2.5-flash';
 const DB_NAME = 'lfx-mentorship-yash';
 
@@ -145,7 +145,7 @@ async function main() {
   console.log('\n  🏢 Step 5: Rebuilding organizations collection...');
 
   // Drop old organizations
-  await db.collection('organizations').drop().catch(() => {});
+  await db.collection('organizations').drop().catch(() => { });
   console.log('    Dropped old organizations collection');
 
   // Read ALL projects and regroup
@@ -155,7 +155,7 @@ async function main() {
   // Insert new organizations
   if (organizations.length > 0) {
     await db.collection('organizations').insertMany(organizations);
-    await db.collection('organizations').createIndex({ slug: 1 }, { unique: true }).catch(() => {});
+    await db.collection('organizations').createIndex({ slug: 1 }, { unique: true }).catch(() => { });
   }
   console.log(`    ✅ Rebuilt ${organizations.length} organizations`);
 

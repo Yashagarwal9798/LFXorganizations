@@ -22,11 +22,11 @@ try {
       if (!process.env[key]) process.env[key] = val;
     }
   }
-} catch {}
+} catch { }
 
 // ─── Config ────────────────────────────────────────────────────────
 const BASE = 'https://api.mentorship.lfx.linuxfoundation.org';
-const GEMINI_API_KEY = 'AIzaSyC7JUK4UQ6T_n1Cea7OJkxnBckcl6Fjilg';
+const GEMINI_API_KEY = '[GCP_API_KEY]';
 const GEMINI_MODEL = 'gemini-2.5-flash';
 const DB_NAME = 'lfx-mentorship-yash';
 
@@ -161,9 +161,9 @@ async function main() {
 
   // ── Step 7: Create indexes ─────────────────────────────────────
   console.log('\n  📇 Step 7: Creating indexes...');
-  await db.collection('organizations').createIndex({ slug: 1 }, { unique: true }).catch(() => {});
-  await db.collection('projects').createIndex({ orgSlug: 1 }).catch(() => {});
-  await db.collection('projects').createIndex({ _compositeKey: 1 }, { unique: true }).catch(() => {});
+  await db.collection('organizations').createIndex({ slug: 1 }, { unique: true }).catch(() => { });
+  await db.collection('projects').createIndex({ orgSlug: 1 }).catch(() => { });
+  await db.collection('projects').createIndex({ _compositeKey: 1 }, { unique: true }).catch(() => { });
   console.log('    ✅ Indexes ready');
 
   // ── Final Summary ──────────────────────────────────────────────
