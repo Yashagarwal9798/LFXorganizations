@@ -43,10 +43,6 @@ export default function OrgHeader({ org }) {
             <Badge variant="foundation">{org.foundation}</Badge>
           </div>
 
-          <p className="mt-4 text-base text-cyber-fg-muted font-sans max-w-3xl leading-relaxed">
-            {org.description}
-          </p>
-
           <div className="mt-6 flex flex-wrap gap-6 font-mono text-sm">
             {org.websiteUrl && (
               <a
