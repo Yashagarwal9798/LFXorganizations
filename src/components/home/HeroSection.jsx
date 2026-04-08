@@ -62,7 +62,7 @@ export default function HeroSection({ meta }) {
       <div className="mt-20 grid grid-cols-1 gap-6 sm:grid-cols-3 sm:gap-8 lg:px-12 relative z-10">
         <AnimatedCounter end={meta.totalOrganizations} label="Organizations" />
         <AnimatedCounter end={meta.totalMentees} label="Mentees Graduated" />
-        <AnimatedCounter end={meta.totalProjects} label="Mentees Impacted" /> 
+        <AnimatedCounter end={meta.totalProjects} label="Projects" /> 
         {/* Switched totalProjects label temporarily to reflect scale, or keep 'Projects' */}
       </div>
     </section>
