@@ -39,3 +39,27 @@ body {
     @apply bg-cyber-surface border border-cyber-outline/20 hover:border-cyber-primary/40 transition-colors duration-300;
   }
 }
+
+/* Custom scrollbar — matches cyber theme */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-cyber-outline) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--color-cyber-outline);
+  border-radius: 999px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--color-cyber-primary);
+}

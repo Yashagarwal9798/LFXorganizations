@@ -1,5 +1,10 @@
+/**
+ * Filter organizations.
+ * - Removed unnecessary initial array copy (each .filter() already creates a new array)
+ * - Skills use a pre-built Set for O(1) lookups instead of nested .some()
+ */
 export function filterOrgs(organizations, filters) {
-  let result = [...organizations];
+  let result = organizations;
 
   if (filters.search) {
     const q = filters.search.toLowerCase();
@@ -26,28 +31,32 @@ export function filterOrgs(organizations, filters) {
   }
 
   if (filters.skills && filters.skills.length > 0) {
-    result = result.filter((org) =>
-      filters.skills.every((skill) =>
-        org.skills.some((s) => s.toLowerCase() === skill.toLowerCase())
-      )
-    );
+    const wanted = filters.skills.map((s) => s.toLowerCase());
+    result = result.filter((org) => {
+      // Build a Set once per org for O(1) lookups
+      const orgSkills = new Set((org.skills || []).map((s) => s.toLowerCase()));
+      return wanted.every((skill) => orgSkills.has(skill));
+    });
   }
 
   return result;
 }
 
+/**
+ * Sort organizations.
+ * filterOrgs already returns a new array, so we can sort in-place
+ * instead of creating yet another copy.
+ */
 export function sortOrgs(organizations, sortBy) {
-  const sorted = [...organizations];
-
   switch (sortBy) {
     case 'projects':
-      return sorted.sort((a, b) => b.totalProjects - a.totalProjects);
+      return organizations.sort((a, b) => b.totalProjects - a.totalProjects);
     case 'mentees':
-      return sorted.sort((a, b) => b.totalMentees - a.totalMentees);
+      return organizations.sort((a, b) => b.totalMentees - a.totalMentees);
     case 'recent':
-      return sorted.sort((a, b) => (b.lastYear || 0) - (a.lastYear || 0));
+      return organizations.sort((a, b) => (b.lastYear || 0) - (a.lastYear || 0));
     case 'alpha':
     default:
-      return sorted.sort((a, b) => a.displayName.localeCompare(b.displayName));
+      return organizations.sort((a, b) => a.displayName.localeCompare(b.displayName));
   }
 }

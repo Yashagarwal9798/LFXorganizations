@@ -7,11 +7,13 @@ import { loadMeta } from '@/lib/data';
 const inter = Inter({
   variable: '--font-inter',
   subsets: ['latin'],
+  display: 'swap',
 });
 
 const spaceGrotesk = Space_Grotesk({
   variable: '--font-space-grotesk',
   subsets: ['latin'],
+  display: 'swap',
 });
 
 export const metadata = {
@@ -24,7 +26,7 @@ export default async function RootLayout({ children }) {
   let lastUpdated = null;
   try {
     const meta = await loadMeta();
-    lastUpdated = lastUpdated = meta?.lastUpdated || null;
+    lastUpdated = meta?.lastUpdated || null;
   } catch {}
 
   return (

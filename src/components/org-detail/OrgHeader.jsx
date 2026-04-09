@@ -3,24 +3,35 @@ import Badge from '@/components/ui/Badge';
 
 export default function OrgHeader({ org }) {
   return (
-    <div className="relative rounded-2xl overflow-hidden bg-cyber-bg border border-cyber-outline/20 p-8 pt-12 mt-8 z-10 group">
+    <div className="group relative z-10 mt-2 overflow-hidden rounded-2xl border border-cyber-outline/20 bg-cyber-bg p-6 pt-16 sm:mt-4 sm:p-8 sm:pt-20">
       {/* Background Glow */}
-      <div 
+      <div
         className="absolute inset-0 opacity-10 blur-3xl pointer-events-none transition-opacity duration-1000 group-hover:opacity-20"
         style={{
           backgroundColor: org.color && org.color !== 'FFFFFF' ? `#${org.color.replace('#', '')}` : '#00d1ff',
         }}
       ></div>
 
-      <nav className="absolute top-4 left-6 text-xs font-mono uppercase tracking-widest text-cyber-fg-muted">
-        <Link href="/" className="hover:text-cyber-primary transition-colors">
-          Home
+      <nav className="absolute left-5 top-4 flex items-center gap-4 sm:left-8 sm:top-5">
+        <Link
+          href="/organizations"
+          className="inline-flex items-center gap-1.5 text-xs font-mono text-cyber-primary hover:text-cyber-secondary transition-colors bg-cyber-primary/10 hover:bg-cyber-primary/20 px-3 py-1.5 rounded-lg border border-cyber-primary/20"
+        >
+          <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
+          </svg>
+          Back to Directory
         </Link>
-        <span className="mx-2 text-cyber-outline">/</span>
-        <span className="text-cyber-fg">{org.displayName}</span>
+        <div className="text-xs font-mono uppercase tracking-widest text-cyber-fg-muted hidden sm:block">
+          <Link href="/" className="hover:text-cyber-primary transition-colors">Home</Link>
+          <span className="mx-2 text-cyber-outline">/</span>
+          <Link href="/organizations" className="hover:text-cyber-primary transition-colors">Directory</Link>
+          <span className="mx-2 text-cyber-outline">/</span>
+          <span className="text-cyber-fg">{org.displayName}</span>
+        </div>
       </nav>
 
-      <div className="flex flex-col sm:flex-row items-start sm:items-end gap-6 relative z-10">
+      <div className="relative z-10 flex flex-col items-start gap-6 sm:flex-row sm:items-end sm:gap-8">
         <div
           className="h-28 w-28 sm:h-36 sm:w-36 flex-shrink-0 rounded-2xl flex items-center justify-center overflow-hidden bg-cyber-surface border-2 shadow-2xl backdrop-blur-md"
           style={{
@@ -29,7 +40,7 @@ export default function OrgHeader({ org }) {
           }}
         >
           {org.logoUrl ? (
-            <img src={org.logoUrl} alt={`${org.displayName} logo`} className="h-full w-full object-contain p-4 drop-shadow-lg" />
+            <img src={org.logoUrl} alt={`${org.displayName} logo`} width={144} height={144} loading="lazy" decoding="async" className="h-full w-full object-contain p-4 drop-shadow-lg" />
           ) : (
             <span className="text-5xl font-display font-bold text-cyber-fg">{org.displayName.charAt(0)}</span>
           )}
@@ -76,4 +87,3 @@ export default function OrgHeader({ org }) {
     </div>
   );
 }
-

@@ -1,7 +1,7 @@
 'use client';
 
-import { useMemo } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useMemo, useDeferredValue } from 'react';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { filterOrgs, sortOrgs } from '@/lib/filters';
 import OrgCard from './OrgCard';
 import NoResults from './NoResults';
@@ -10,6 +10,7 @@ import { SORT_OPTIONS } from '@/lib/constants';
 
 export default function OrgGrid({ organizations }) {
   const searchParams = useSearchParams();
+  const router = useRouter();
 
   const skillParam = searchParams.get('skills') || '';
   const selectedSkills = skillParam ? skillParam.split(',').map((s) => s.trim()).filter(Boolean) : [];
@@ -28,11 +29,13 @@ export default function OrgGrid({ organizations }) {
     [organizations, filters.search, filters.year, filters.season, filters.foundation, skillParam, sortBy]
   );
 
+  const deferredFiltered = useDeferredValue(filtered);
+
   return (
     <div>
       <div className="mb-4 flex items-center justify-between">
         <p className="text-sm text-gray-500 dark:text-gray-400">
-          {filtered.length} organization{filtered.length !== 1 ? 's' : ''}
+          {deferredFiltered.length} organization{deferredFiltered.length !== 1 ? 's' : ''}
         </p>
         <div className="w-44">
           <Select
@@ -44,8 +47,7 @@ export default function OrgGrid({ organizations }) {
               } else {
                 params.delete('sort');
               }
-              window.history.replaceState(null, '', `?${params.toString()}`);
-              window.dispatchEvent(new Event('popstate'));
+              router.replace(`?${params.toString()}`, { scroll: false });
             }}
             options={SORT_OPTIONS}
             placeholder="Sort by..."
@@ -53,11 +55,11 @@ export default function OrgGrid({ organizations }) {
         </div>
       </div>
 
-      {filtered.length === 0 ? (
+      {deferredFiltered.length === 0 ? (
         <NoResults />
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {filtered.map((org) => (
+          {deferredFiltered.map((org) => (
             <OrgCard key={org.slug} org={org} />
           ))}
         </div>

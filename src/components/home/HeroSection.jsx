@@ -9,19 +9,19 @@ function AnimatedCounter({ end, label }) {
   useEffect(() => {
     if (end === 0) return;
     const duration = 1500;
-    const steps = 40;
-    const increment = end / steps;
-    let current = 0;
-    const interval = setInterval(() => {
-      current += increment;
-      if (current >= end) {
-        setCount(end);
-        clearInterval(interval);
-      } else {
-        setCount(Math.floor(current));
+    const start = performance.now();
+    let rafId;
+
+    function tick(now) {
+      const progress = Math.min((now - start) / duration, 1);
+      setCount(Math.floor(progress * end));
+      if (progress < 1) {
+        rafId = requestAnimationFrame(tick);
       }
-    }, duration / steps);
-    return () => clearInterval(interval);
+    }
+
+    rafId = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(rafId);
   }, [end]);
 
   return (

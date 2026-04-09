@@ -1,7 +1,8 @@
+import { memo } from 'react';
 import Link from 'next/link';
 import Badge from '@/components/ui/Badge';
 
-export default function OrgCard({ org }) {
+const OrgCard = memo(function OrgCard({ org }) {
   const maxSkills = 3;
   const visibleSkills = (org.skills || []).slice(0, maxSkills);
   const extraCount = (org.skills || []).length - maxSkills;
@@ -24,6 +25,10 @@ export default function OrgCard({ org }) {
             <img
               src={org.logoUrl}
               alt={`${org.displayName} logo`}
+              width={56}
+              height={56}
+              loading="lazy"
+              decoding="async"
               className="h-full w-full object-contain p-2"
             />
           ) : (
@@ -64,4 +69,6 @@ export default function OrgCard({ org }) {
     </Link>
   );
 }
+);
 
+export default OrgCard;

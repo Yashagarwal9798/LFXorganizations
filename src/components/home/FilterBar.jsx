@@ -1,51 +1,57 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { useSearchParams, useRouter } from 'next/navigation';
+import { startTransition, useEffect, useMemo, useState } from 'react';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import SearchInput from '@/components/ui/SearchInput';
 import Select from '@/components/ui/Select';
 import ComboBox from '@/components/ui/ComboBox';
 
 export default function FilterBar({ meta }) {
-  const searchParams = useSearchParams();
+  const pathname = usePathname();
   const router = useRouter();
+  const searchParams = useSearchParams();
 
-  // ── Read current applied filters from URL ──
-  function readFromURL() {
+  const applied = useMemo(() => {
     const skillParam = searchParams.get('skills') || '';
     return {
       year: searchParams.get('year') || '',
       season: searchParams.get('season') || '',
       foundation: searchParams.get('foundation') || '',
-      skills: skillParam ? skillParam.split(',').map((s) => s.trim()).filter(Boolean) : [],
+      skills: skillParam ? skillParam.split(',').map((skill) => skill.trim()).filter(Boolean) : [],
     };
-  }
-
-  // Draft state for filters that need "Apply" (everything except search)
-  const [draft, setDraft] = useState(readFromURL);
-
-  // Sync draft when URL changes externally (browser back/forward)
-  useEffect(() => {
-    setDraft(readFromURL());
   }, [searchParams]);
+
+  const [draft, setDraft] = useState(applied);
+
+  useEffect(() => {
+    setDraft(applied);
+  }, [applied]);
+
+  function replaceParams(params) {
+    const query = params.toString();
+    const nextUrl = query ? `${pathname}?${query}` : pathname;
+
+    startTransition(() => {
+      router.replace(nextUrl, { scroll: false });
+    });
+  }
 
   function updateDraft(key, value) {
     setDraft((prev) => ({ ...prev, [key]: value }));
   }
 
-  // ── Search stays INSTANT (updates URL immediately) ──
   function updateSearch(value) {
     const params = new URLSearchParams(searchParams.toString());
+
     if (value) {
       params.set('search', value);
     } else {
       params.delete('search');
     }
-    router.replace(`?${params.toString()}`, { scroll: false });
+
+    replaceParams(params);
   }
 
-  // ── Check if draft differs from applied URL params ──
-  const applied = readFromURL();
   const isDirty =
     draft.year !== applied.year ||
     draft.season !== applied.season ||
@@ -56,49 +62,44 @@ export default function FilterBar({ meta }) {
     draft.year || draft.season || draft.foundation || draft.skills.length > 0;
   const hasSearch = searchParams.get('search') || '';
 
-  // ── Apply: push draft filters to URL ──
   function applyFilters() {
     const params = new URLSearchParams();
-    // Preserve search
     const search = searchParams.get('search');
-    if (search) params.set('search', search);
-    // Preserve sort
     const sort = searchParams.get('sort');
+
+    if (search) params.set('search', search);
     if (sort) params.set('sort', sort);
-    // Apply draft filters
     if (draft.year) params.set('year', draft.year);
     if (draft.season) params.set('season', draft.season);
     if (draft.foundation) params.set('foundation', draft.foundation);
     if (draft.skills.length > 0) params.set('skills', draft.skills.join(','));
-    router.replace(`?${params.toString()}`, { scroll: false });
+
+    replaceParams(params);
   }
 
   function clearAll() {
     setDraft({ year: '', season: '', foundation: '', skills: [] });
-    // Clear everything except sort
+
     const params = new URLSearchParams();
     const sort = searchParams.get('sort');
+
     if (sort) params.set('sort', sort);
-    router.replace(`?${params.toString()}`, { scroll: false });
+
+    replaceParams(params);
   }
 
   return (
     <div className="space-y-4">
-      {/* Search — stays instant */}
       <div className="mb-6">
-        <SearchInput
-          value={hasSearch}
-          onChange={updateSearch}
-        />
+        <SearchInput value={hasSearch} onChange={updateSearch} />
       </div>
 
-      {/* Filters that require "Apply" */}
       <div className="space-y-4">
         <Select
           label="Year"
           value={draft.year}
           onChange={(val) => updateDraft('year', val || '')}
-          options={meta.years.map((y) => ({ value: String(y), label: String(y) }))}
+          options={meta.years.map((year) => ({ value: String(year), label: String(year) }))}
           placeholder="All Years"
         />
         <Select
@@ -128,27 +129,26 @@ export default function FilterBar({ meta }) {
         />
       </div>
 
-      {/* Apply Filters button — glows when draft has pending changes */}
       <button
         onClick={applyFilters}
         disabled={!isDirty}
-        className={`mt-6 w-full text-sm font-bold py-3 rounded-lg uppercase tracking-widest transition-all duration-300 ${
+        className={`mt-6 w-full rounded-lg py-3 text-sm font-bold uppercase tracking-widest transition-all duration-300 ${
           isDirty
-            ? 'bg-cyber-primary text-black hover:bg-cyber-primary-hover shadow-lg shadow-cyber-primary/25 cursor-pointer'
-            : 'bg-cyber-outline/20 text-cyber-outline/50 cursor-not-allowed'
+            ? 'cursor-pointer bg-cyber-primary text-black shadow-lg shadow-cyber-primary/25 hover:bg-cyber-primary-hover'
+            : 'cursor-not-allowed bg-cyber-outline/20 text-cyber-outline/50'
         }`}
       >
-        {isDirty ? '⚡ Apply Filters' : 'Apply Filters'}
+        Apply Filters
       </button>
 
-      {(hasDraftFilters || hasSearch) && (
+      {(hasDraftFilters || hasSearch) ? (
         <button
           onClick={clearAll}
-          className="w-full text-sm font-medium text-cyber-primary hover:text-cyber-primary-hover border border-cyber-primary/30 rounded p-2 transition-colors uppercase tracking-widest"
+          className="w-full rounded border border-cyber-primary/30 p-2 text-sm font-medium uppercase tracking-widest text-cyber-primary transition-colors hover:text-cyber-primary-hover"
         >
           Clear Filters
         </button>
-      )}
+      ) : null}
     </div>
   );
 }
