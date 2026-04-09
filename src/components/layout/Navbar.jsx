@@ -7,7 +7,7 @@ export default function Navbar() {
         <div className="flex h-16 items-center justify-between">
           <Link href="/" className="flex items-center gap-2 group">
             <span className="text-xl font-display font-bold text-cyber-fg group-hover:text-cyber-primary transition-colors duration-300">
-              LFX Mentorship
+              LFX Organizations
             </span>
             <span className="hidden sm:inline text-sm text-cyber-fg-muted font-mono tracking-wider">
               [OBSERVATORY]

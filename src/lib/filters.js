@@ -6,8 +6,7 @@ export function filterOrgs(organizations, filters) {
     result = result.filter(
       (org) =>
         org.name.toLowerCase().includes(q) ||
-        org.displayName.toLowerCase().includes(q) ||
-        org.skills.some((s) => s.toLowerCase().includes(q))
+        org.displayName.toLowerCase().includes(q)
     );
   }
 
@@ -26,10 +25,11 @@ export function filterOrgs(organizations, filters) {
     result = result.filter((org) => org.foundation === filters.foundation);
   }
 
-  if (filters.skill) {
-    const skill = filters.skill.toLowerCase();
+  if (filters.skills && filters.skills.length > 0) {
     result = result.filter((org) =>
-      org.skills.some((s) => s.toLowerCase() === skill)
+      filters.skills.every((skill) =>
+        org.skills.some((s) => s.toLowerCase() === skill.toLowerCase())
+      )
     );
   }
 

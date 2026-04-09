@@ -11,18 +11,21 @@ import { SORT_OPTIONS } from '@/lib/constants';
 export default function OrgGrid({ organizations }) {
   const searchParams = useSearchParams();
 
+  const skillParam = searchParams.get('skills') || '';
+  const selectedSkills = skillParam ? skillParam.split(',').map((s) => s.trim()).filter(Boolean) : [];
+
   const filters = {
     search: searchParams.get('search') || '',
     year: searchParams.get('year') || '',
     season: searchParams.get('season') || '',
     foundation: searchParams.get('foundation') || '',
-    skill: searchParams.get('skill') || '',
+    skills: selectedSkills,
   };
   const sortBy = searchParams.get('sort') || 'alpha';
 
   const filtered = useMemo(
     () => sortOrgs(filterOrgs(organizations, filters), sortBy),
-    [organizations, filters.search, filters.year, filters.season, filters.foundation, filters.skill, sortBy]
+    [organizations, filters.search, filters.year, filters.season, filters.foundation, skillParam, sortBy]
   );
 
   return (

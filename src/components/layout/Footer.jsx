@@ -21,7 +21,7 @@ export default function Footer({ lastUpdated }) {
               rel="noopener noreferrer"
               className="text-cyber-primary hover:text-cyber-secondary transition-colors"
             >
-              LFX Mentorship
+              LFX Organizations
             </a>
             {' '}&middot; Last updated: {dateStr}
           </div>
