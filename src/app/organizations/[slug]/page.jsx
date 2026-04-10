@@ -36,8 +36,8 @@ export default async function OrgDetailPage({ params }) {
     <div className="mx-auto max-w-screen-2xl px-4 pt-5 pb-8 sm:px-6 sm:pt-6 lg:px-8 lg:pt-8">
       <OrgHeader org={org} />
       
-      <div className="mt-12 flex flex-col md:flex-row gap-12 items-start">
-        <aside className="w-full md:w-[350px] shrink-0 space-y-8 sticky top-24">
+      <div className="mt-8 md:mt-12 flex flex-col md:flex-row gap-8 md:gap-12 items-start relative">
+        <aside className="w-full md:w-[350px] shrink-0 space-y-8 relative z-20 md:sticky md:top-24">
           <div className="bg-glass-card rounded-xl p-6">
             <h2 className="text-xl font-display font-medium text-cyber-fg mb-6 border-b border-cyber-outline/20 pb-4">Organization Profile</h2>
             <OrgStats org={org} />
@@ -48,7 +48,7 @@ export default async function OrgDetailPage({ params }) {
           </div>
         </aside>
 
-        <main className="flex-1 w-full bg-glass-card rounded-xl p-8">
+        <main className="flex-1 w-full bg-glass-card rounded-xl p-5 sm:p-8 relative z-10">
           <h2 className="text-3xl font-display font-bold text-cyber-fg mb-8 text-gradient">Mentorship Projects</h2>
           <TermTimeline projects={projects} participations={org.participations} />
         </main>

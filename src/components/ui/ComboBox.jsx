@@ -225,56 +225,59 @@ export default function ComboBox({ value = [], onChange, options, placeholder, l
       {open && portalPos && createPortal(
         <div
           ref={portalRef}
-          className="fixed z-[9999] max-h-80 overflow-y-auto rounded-lg border border-cyber-outline/30 bg-[#0f131d] shadow-xl shadow-black/40"
+          className="fixed z-[9999] rounded-lg border border-cyber-outline/30 bg-[#0f131d] shadow-xl shadow-black/40 flex flex-col"
           style={{
             bottom: portalPos.bottom,
             left: portalPos.left,
             width: portalPos.width,
-            scrollbarWidth: 'thin',
+            maxHeight: '20rem',
           }}
         >
-          {selected.length > 0 && (
-            <button
-              onMouseDown={(e) => e.preventDefault()}
-              onClick={() => { onChange([]); setSearch(''); }}
-              className="w-full text-left px-3 py-2 text-sm text-cyber-fg-muted hover:bg-cyber-surface-low hover:text-cyber-fg border-b border-cyber-outline/10 font-mono text-xs"
-            >
-              ✕ Clear all ({selected.length} selected)
-            </button>
-          )}
-
-          {filtered.length === 0 && (
-            <div className="px-3 py-4 text-center text-xs text-cyber-outline font-mono">
-              No skills match &ldquo;{search}&rdquo;
-            </div>
-          )}
-
-          {filtered.slice(0, 50).map((opt) => {
-            const isSelected = selected.includes(opt.value);
-            return (
+          {/* Scrollable options area */}
+          <div className="flex-1 overflow-y-auto min-h-0" style={{ scrollbarWidth: 'thin' }}>
+            {selected.length > 0 && (
               <button
-                key={opt.value}
                 onMouseDown={(e) => e.preventDefault()}
-                onClick={() => toggleOption(opt.value)}
-                className={`w-full text-left px-3 py-2 text-sm transition-colors flex items-center gap-2 ${
-                  isSelected
-                    ? 'bg-cyber-primary/15 text-cyber-primary'
-                    : 'text-white/80 hover:bg-cyber-surface-low hover:text-white'
-                }`}
+                onClick={() => { onChange([]); setSearch(''); }}
+                className="w-full text-left px-3 py-2 text-sm text-cyber-fg-muted hover:bg-cyber-surface-low hover:text-cyber-fg border-b border-cyber-outline/10 font-mono text-xs"
               >
-                <span className={`flex-shrink-0 w-4 h-4 rounded border flex items-center justify-center text-[10px] ${
-                  isSelected
-                    ? 'border-cyber-primary bg-cyber-primary/30 text-cyber-primary'
-                    : 'border-cyber-outline/40'
-                }`}>
-                  {isSelected && '✓'}
-                </span>
-                <span className="truncate">{opt.label}</span>
+                ✕ Clear all ({selected.length} selected)
               </button>
-            );
-          })}
+            )}
 
-          {/* View All button — always at bottom */}
+            {filtered.length === 0 && (
+              <div className="px-3 py-4 text-center text-xs text-cyber-outline font-mono">
+                No skills match &ldquo;{search}&rdquo;
+              </div>
+            )}
+
+            {filtered.slice(0, 50).map((opt) => {
+              const isSelected = selected.includes(opt.value);
+              return (
+                <button
+                  key={opt.value}
+                  onMouseDown={(e) => e.preventDefault()}
+                  onClick={() => toggleOption(opt.value)}
+                  className={`w-full text-left px-3 py-2 text-sm transition-colors flex items-center gap-2 ${
+                    isSelected
+                      ? 'bg-cyber-primary/15 text-cyber-primary'
+                      : 'text-white/80 hover:bg-cyber-surface-low hover:text-white'
+                  }`}
+                >
+                  <span className={`flex-shrink-0 w-4 h-4 rounded border flex items-center justify-center text-[10px] ${
+                    isSelected
+                      ? 'border-cyber-primary bg-cyber-primary/30 text-cyber-primary'
+                      : 'border-cyber-outline/40'
+                  }`}>
+                    {isSelected && '✓'}
+                  </span>
+                  <span className="truncate">{opt.label}</span>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* View All button — pinned outside scroll area */}
           <button
             onMouseDown={(e) => e.preventDefault()}
             onClick={() => {
@@ -282,7 +285,7 @@ export default function ComboBox({ value = [], onChange, options, placeholder, l
               setSearch('');
               setModalOpen(true);
             }}
-            className="w-full px-3 py-2.5 text-xs font-mono text-cyber-primary hover:bg-cyber-primary/10 border-t border-cyber-outline/20 flex items-center justify-center gap-2 transition-colors sticky bottom-0 bg-[#0f131d]"
+            className="w-full px-3 py-2.5 text-xs font-mono text-cyber-primary hover:bg-cyber-primary/10 border-t border-cyber-outline/20 flex items-center justify-center gap-2 transition-colors flex-shrink-0 bg-[#0f131d] rounded-b-lg"
           >
             <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 10h16M4 14h16M4 18h16" />

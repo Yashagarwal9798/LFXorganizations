@@ -1,0 +1,48 @@
+'use client';
+
+import Link from 'next/link';
+
+export default function Error({ error, reset }) {
+  return (
+    <div className="min-h-[70vh] flex items-center justify-center px-4">
+      <div className="text-center max-w-lg">
+        {/* Animated icon */}
+        <div className="text-6xl mb-6 animate-bounce">⚡</div>
+
+        <h1 className="text-2xl sm:text-3xl font-bold text-gradient mb-3">
+          Oops! Something went wrong
+        </h1>
+
+        <p className="text-cyber-fg-muted text-base leading-relaxed mb-8">
+          We ran into an unexpected issue while loading this page.
+          This could be a temporary glitch — please try again.
+        </p>
+
+        {/* Error detail (dev-friendly, hidden in prod-like style) */}
+        {error?.message && (
+          <div className="mb-8 rounded-lg bg-cyber-surface border border-cyber-outline/20 px-4 py-3 text-left">
+            <p className="text-xs text-cyber-fg-muted font-mono truncate">
+              {error.message}
+            </p>
+          </div>
+        )}
+
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+          <button
+            onClick={() => reset()}
+            className="px-6 py-3 rounded-lg border border-cyber-primary/40 bg-cyber-primary/10 text-cyber-primary font-semibold text-sm hover:bg-cyber-primary/20 hover:border-cyber-primary/60 transition-all duration-200 cursor-pointer"
+          >
+            Try Again
+          </button>
+
+          <Link
+            href="/"
+            className="px-6 py-3 rounded-lg border border-cyber-outline/30 bg-cyber-surface text-cyber-fg-muted font-semibold text-sm hover:border-cyber-primary/30 hover:text-cyber-fg transition-all duration-200"
+          >
+            Go Home
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+}

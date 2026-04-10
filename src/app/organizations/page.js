@@ -24,15 +24,15 @@ export default async function OrganizationsDirectoryPage() {
       </div>
 
       <Suspense fallback={null}>
-        <section className="flex flex-col md:flex-row gap-12 items-start relative z-20">
-          <aside className="w-full md:w-80 shrink-0 sticky top-24">
-            <div className="bg-glass-card rounded-xl p-6 max-h-[calc(100vh-8rem)] overflow-y-auto" style={{ scrollbarWidth: 'thin' }}>
+        <section className="flex flex-col md:flex-row gap-8 md:gap-12 items-start relative">
+          <aside className="w-full md:w-80 shrink-0 relative z-20 md:sticky md:top-24">
+            <div className="bg-glass-card rounded-xl p-6 md:max-h-[calc(100vh-8rem)] md:overflow-y-auto" style={{ scrollbarWidth: 'thin' }}>
               <h2 className="text-xl font-display font-medium text-cyber-fg mb-6">Refine Search</h2>
               <FilterBar meta={meta} />
             </div>
           </aside>
           
-          <main className="flex-1 w-full">
+          <main className="flex-1 w-full relative z-10">
             <OrgGrid organizations={organizations} />
           </main>
         </section>
