@@ -14,11 +14,14 @@ export default function OrgGrid({ organizations }) {
 
   const skillParam = searchParams.get('skills') || '';
   const selectedSkills = skillParam ? skillParam.split(',').map((s) => s.trim()).filter(Boolean) : [];
+  const yearsParam = searchParams.get('years') || '';
+  const termsParam = searchParams.get('terms') || '';
 
   const filters = {
     search: searchParams.get('search') || '',
-    year: searchParams.get('year') || '',
-    season: searchParams.get('season') || '',
+    years: yearsParam ? yearsParam.split(',').map((y) => y.trim()).filter(Boolean) : [],
+    terms: termsParam ? termsParam.split(',').map((t) => t.trim()).filter(Boolean) : [],
+    season: searchParams.get('season') || '', // legacy fallback
     foundation: searchParams.get('foundation') || '',
     skills: selectedSkills,
   };
@@ -26,7 +29,7 @@ export default function OrgGrid({ organizations }) {
 
   const filtered = useMemo(
     () => sortOrgs(filterOrgs(organizations, filters), sortBy),
-    [organizations, filters.search, filters.year, filters.season, filters.foundation, skillParam, sortBy]
+    [organizations, filters.search, yearsParam, termsParam, filters.season, filters.foundation, skillParam, sortBy]
   );
 
   const deferredFiltered = useDeferredValue(filtered);

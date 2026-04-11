@@ -2,6 +2,11 @@
  * Filter organizations.
  * - Removed unnecessary initial array copy (each .filter() already creates a new array)
  * - Skills use a pre-built Set for O(1) lookups instead of nested .some()
+ *
+ * Supports:
+ *   - filters.years: string[]  — multi-year selection
+ *   - filters.terms: string[]  — granular year:season pairs (e.g. "2024:fall")
+ *   - filters.season: string   — legacy single-season filter (when no years selected)
  */
 export function filterOrgs(organizations, filters) {
   let result = organizations;
@@ -15,12 +20,30 @@ export function filterOrgs(organizations, filters) {
     );
   }
 
-  if (filters.year) {
+  // New: granular year:season term pairs take highest priority
+  if (filters.terms && filters.terms.length > 0) {
+    const termSet = new Set(filters.terms); // e.g. Set("2024:fall", "2025:summer")
+    result = result.filter((org) =>
+      org.participations.some((p) =>
+        termSet.has(`${p.term.year}:${p.term.season}`)
+      )
+    );
+  }
+  // New: multi-year filter (any season within those years)
+  else if (filters.years && filters.years.length > 0) {
+    const yearSet = new Set(filters.years.map(Number));
+    result = result.filter((org) =>
+      org.yearsActive.some((y) => yearSet.has(y))
+    );
+  }
+  // Legacy: single year filter
+  else if (filters.year) {
     const year = parseInt(filters.year);
     result = result.filter((org) => org.yearsActive.includes(year));
   }
 
-  if (filters.season) {
+  // Legacy: single season filter (only applies when no years/terms are set)
+  if (filters.season && (!filters.years || filters.years.length === 0) && (!filters.terms || filters.terms.length === 0)) {
     result = result.filter((org) =>
       org.participations.some((p) => p.term.season === filters.season)
     );
