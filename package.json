@@ -11,8 +11,7 @@
     "fetch-data": "node scripts/fetch-data.mjs",
     "fetch-all": "node scripts/fetch-all.mjs",
     "fetch-yash": "node lfx-mentorship-yash/pipeline.mjs",
-    "fix-fallbacks": "node lfx-mentorship-yash/fix-fallbacks.mjs",
-    "prebuild": "npm run fetch-data"
+    "fix-fallbacks": "node lfx-mentorship-yash/fix-fallbacks.mjs"
   },
   "dependencies": {
     "@google/genai": "^1.48.0",
