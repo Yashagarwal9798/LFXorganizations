@@ -2,10 +2,10 @@ export const FOUNDATION_COLORS = {
   CNCF: '#326CE5',
   'LF AI & Data': '#0079C1',
   'LF Edge': '#00A3E0',
-  Hyperledger: '#2F3134',
+  Hyperledger: '#9CA3AF',
   OpenSSF: '#3DA639',
   CHAOSS: '#FF6600',
-  'Linux Foundation': '#000000',
+  'Linux Foundation': '#A0A0A0',
   'Open Mainframe Project': '#006699',
 };
 

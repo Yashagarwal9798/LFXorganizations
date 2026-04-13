@@ -8,7 +8,7 @@ export default function Badge({ children, variant = 'default', color }) {
     return (
       <span
         className={`${baseClasses} text-white bg-opacity-20 border border-opacity-40`}
-        style={{ backgroundColor: `${bg}33`, borderColor: bg, color: bg }}
+        style={{ backgroundColor: `${bg}33`, borderColor: bg }}
       >
         {children}
       </span>
